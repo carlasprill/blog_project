@@ -6,6 +6,9 @@ use App\Http\Requests\CreateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+
+
+
 class CategoryController extends Controller
 {
     /**
@@ -39,7 +42,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('categories.show', compact('category'));
+
     }
 
     /**
@@ -47,15 +51,18 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('Category'));     
     }
+
+  
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CreateCategoryRequest $request, Category $category)
     {
-        //
+        $category->update($request->validated());
+        return redirect()->route('categories.index')->with('success', 'Category update successfully');
     }
 
     /**
@@ -63,6 +70,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('succes', 'Category delete successfully', );
     }
 }
